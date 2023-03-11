@@ -49,6 +49,9 @@ class Worker(pytak.QueueWorker):
             if not event:
                 self._logger.debug("Empty CoT Event")
                 continue
+
+            print('Sending event', event, flush=True)
+
             await self.put_queue(event)
 
     async def get_inreach_feeds(self) -> None:
@@ -66,6 +69,7 @@ class Worker(pytak.QueueWorker):
 
             async with aiohttp.ClientSession() as session:
                 try:
+                    print('Fetching Garmin feed...', flush=True)
                     response = await session.request(
                         method="GET", auth=feed_auth, url=feed_url
                     )
